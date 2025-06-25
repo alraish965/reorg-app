@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>دفع الإيجار - reorg</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: right;
+        }
+
+        h2 {
+            color: #1976d2;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 12px 0 6px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            margin-bottom: 16px;
+        }
+
+        input[readonly] {
+            background-color: #eee;
+        }
+
+        .pay-btn {
+            background-color: #1976d2;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .pay-btn:hover {
+            background-color: #1258a8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>دفع الإيجار</h2>
+    <form id="paymentForm">
+        <label for="name">اسم المستأجر</label>
+        <input type="text" id="name" name="name" readonly>
+
+        <label for="email">البريد الإلكتروني</label>
+        <input type="email" id="email" name="email" readonly>
+
+        <label for="amount">المبلغ المستحق</label>
+        <input type="text" id="amount" name="amount" readonly>
+
+        <button type="submit" class="pay-btn">ادفع الآن</button>
+    </form>
+</div>
+
+<script>
+    // استخراج بيانات المستأجر من رابط الصفحة
+    const urlParams = new URLSearchParams(window.location.search);
+    document.getElementById("name").value = urlParams.get("name") || "";
+    document.getElementById("email").value = urlParams.get("email") || "";
+    document.getElementById("amount").value = urlParams.get("amount") ? urlParams.get("amount") + " د.ك" : "";
+
+    document.getElementById("paymentForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        alert("سيتم تحويلك إلى بوابة الدفع عبر ماي فاتورتي...");
+        // لاحقاً نربط مع API في Spring Boot
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .container {
+            padding: 2rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .logout {
+            float: left;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <span>لوحة تحكم المالك</span>
+    <a href="/logout" class="logout">تسجيل الخروج</a>
+</header>
+
+<div class="container">
+    <div class="card">
+        <h2>مرحباً بك!</h2>
+        <p>يمكنك الآن إدارة عقاراتك، مراجعة المستأجرين، وتحميل العقود.</p>
+    </div>
+
+    <div class="card">
+        <h3>الخيارات المتاحة:</h3>
+        <ul>
+            <li><a href="#">إدارة العقارات</a></li>
+            <li><a href="#">عرض المستأجرين</a></li>
+            <li><a href="#">طلبات الصيانة</a></li>
+            <li><a href="#">تحصيل الإيجارات</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

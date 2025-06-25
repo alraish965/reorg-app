@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل الدخول - REORG</title>
+    <style>
+        body {
+            background-color: #e0e0e0;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 40px;
+        }
+        .logo {
+            font-size: 36px;
+            font-weight: bold;
+            color: #174C4F;
+        }
+        .login-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        h2 {
+            color: #C91C33;
+            margin-top: 50px;
+        }
+        .box-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        .box {
+            background-color: white;
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 30px;
+            width: 280px;
+            cursor: pointer;
+        }
+        .box h3 {
+            color: #333;
+        }
+        .box p {
+            color: #C91C33;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .footer {
+            margin-top: 60px;
+            font-size: 18px;
+            color: #174C4F;
+        }
+    </style>
+</head>
+<body>
+    <button class="login-btn" onclick="location.href='login.html'">تسجيل الدخول</button>
+    <div class="container">
+        <div class="logo">REORG</div>
+        <h2>قم بإدارة عقاراتك بإتقان</h2>
+        <div class="box-container">
+            <div class="box" onclick="location.href='register-individual.html'">
+                <h3>باقة الأفراد</h3>
+                <p>تحصيل إيجارات<br> وصولات إلكترونية<br> عقود إلكترونية<br> أقل عمولة</p>
+            </div>
+            <div class="box" onclick="location.href='register-company.html'">
+                <h3>باقة الشركات</h3>
+                <p>اسأل عن عروض الشركات</p>
+            </div>
+        </div>
+        <div class="footer">
+            إدارة العقارات - تحصيل إيجارات - عقود إيجار إلكترونية - قواعد بيانات<br>
+            ميزانيات سنوية - إعلانات عقارية - طلبات صيانة - تسويق<br>
+            <strong>Real Estate Organization</strong>
+        </div>
+    </div>
+</body>
+</html>

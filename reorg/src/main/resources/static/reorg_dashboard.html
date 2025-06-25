@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reorg management</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 32px 24px;
+        }
+        h1 {
+            text-align: center;
+            color: #2d3a4b;
+            margin-bottom: 32px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+        th, td {
+            padding: 12px 8px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: right;
+        }
+        th {
+            background: #f0f4f8;
+            color: #2d3a4b;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .add-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 32px;
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .add-btn:hover {
+            background-color: #115293;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>reorg management</h1>
+
+    <h2 style="text-align:center; color:#2d3a4b;">العقارات (بيع وشراء)</h2>
+    <table id="saleTable">
+        <thead>
+        <tr>
+            <th>اسم العقار</th>
+            <th>الموقع</th>
+            <th>السعر</th>
+            <th>الحالة</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>نوع العقار</td>
+            <td>المنطقة</td>
+            <td>2,000,000 د.ك</td>
+            <td>متاح</td>
+        </tr>
+        <tr>
+            <td>شقة</td>
+            <td>المنطقة</td>
+            <td>850,000 دينار كويتي</td>
+            <td>مباع</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button class="add-btn">إضافة عقار جديد</button>
+
+    <hr style="margin:40px 0;">
+
+    <h2 style="text-align:center; color:#2d3a4b;">شقق مؤجرة</h2>
+    <table id="rentTable">
+        <thead>
+        <tr>
+            <th>اسم الشقة</th>
+            <th>المنطقة</th>
+            <th>الإيجار الشهري</th>
+            <th>حالة الدفع</th>
+            <th>فاتورة الدفع</th>
+            <th>تذكير بالإيجار</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>شقة الزهراء</td>
+            <td>حولي</td>
+            <td>400 دينار كويتي</td>
+            <td class="payment-status">غير مدفوع</td>
+            <td><button class="invoice-btn">إصدار فاتورة</button></td>
+            <td><button class="remind-btn" data-email="tenant1@email.com">تذكير بالإيجار</button></td>
+        </tr>
+        <tr>
+            <td>شقة السالمية</td>
+            <td>السالمية</td>
+            <td>350 دينار كويتي</td>
+            <td class="payment-status">غير مدفوع</td>
+            <td><button class="invoice-btn">إصدار فاتورة</button></td>
+            <td><button class="remind-btn" data-email="tenant2@email.com">تذكير بالإيجار</button></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div style="max-width: 400px; margin: 40px auto 0 auto;">
+        <canvas id="financePieChart"></canvas>
+    </div>
+
+    <!-- Chart.js from WebJars -->
+    <script src="/webjars/chart.js/4.4.0/dist/chart.umd.js"></script>
+
+    <script>
+        function extractNumber(text) {
+            const value = text.replace(/[^\d]/g, '');
+            const num = parseInt(value, 10);
+            return isNaN(num) ? 0 : num;
+        }
+
+        function getAllMoney() {
+            let sales = 0;
+            document.querySelectorAll('#saleTable tbody tr').forEach(function(row) {
+                const priceCell = row.children[2];
+                if (priceCell) sales += extractNumber(priceCell.textContent);
+            });
+
+            let rents = 0;
+            document.querySelectorAll('#rentTable tbody tr').forEach(function(row) {
+                const rentCell = row.children[2];
+                if (rentCell) rents += extractNumber(rentCell.textContent);
+            });
+
+            return {
+                sales,
+                rents,
+                portfolio: sales + rents
+            };
+        }
+
+        function updatePieChart() {
+            const { sales, rents, portfolio } = getAllMoney();
+            pieChart.data.datasets[0].data = [sales, rents, portfolio];
+            pieChart.update();
+        }
+
+        const ctx = document.getElementById('financePieChart').getContext('2d');
+        const pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['إجمالي البيع والشراء', 'إجمالي الإيجارات', 'المحفظة المالية'],
+                datasets: [{
+                    data: [0, 0, 0],
+                    backgroundColor: ['#b0b0b0', '#888888', '#444444'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            color: '#2d3a4b',
+                            font: { size: 14 }
+                        }
+                    }
+                }
+            }
+        });
+        updatePieChart();
+
+        document.querySelectorAll('.invoice-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const row = btn.closest('tr');
+                const statusCell = row.querySelector('.payment-status');
+                statusCell.textContent = 'مدفوع';
+                statusCell.style.color = '#388e3c';
+                btn.disabled = true;
+                btn.textContent = 'تم الدفع';
+                updatePieChart();
+            });
+        });
+
+        document.querySelectorAll('.remind-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const email = btn.getAttribute('data-email');
+                const subject = encodeURIComponent('تذكير بموعد الإيجار الشهري');
+                const body = encodeURIComponent(`السلام عليكم و رحمة الله وبركاته\nيسر شركة REORG أن تذكرك بموعد الإيجار الشهري. يرجى تجاهل هذا البريد إذا قمت بالسداد مسبقًا.\nنتمنى لك خدمة سهلة ومريحة.\nللدفع، يرجى زيارة موقع الشركة والتأكد من استلام الوصل.\n\nمع تمنياتنا لكم بالتوفيق\n\nREORG\nReal Estate Management Organization\nCEO`);
+                window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+            });
+        });
+    </script>
+</div>
+</body>
+</html>
